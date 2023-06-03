@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
-import getTasksFromMongoDB from '@/utils/getTasksFromMongoDB';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home({ data }) {
 	const [tasks, setTasks] = useState(data);
@@ -30,11 +29,13 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-	const data = await getTasksFromMongoDB();
+	const res = await fetch('http://localhost:3000/api/tasks');
+	const data = await res.json();
 
 	return {
 		props: {
 			data,
 		},
+		revalidate: 3,
 	};
 }
