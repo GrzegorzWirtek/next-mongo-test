@@ -1,5 +1,5 @@
-import getTasksFromDB from './getTasksFromDB';
-import getTaskFromDB from './getTaskFromDB';
+import getTasksFromDB from '@/utils/getTasksFromDB';
+import getTaskFromDB from '@/utils/getTaskFromDB';
 
 export default function Task({ data }) {
 	const { _id, task, description } = data;
@@ -31,12 +31,12 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
 	const { params } = context;
-
 	const data = await getTaskFromDB(params.id);
 
 	return {
 		props: {
 			data,
 		},
+		revalidate: 3,
 	};
 }
