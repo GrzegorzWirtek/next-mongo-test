@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import getTasksFromDB from '@/utils/getTasksFromDB';
 import Link from 'next/link';
-// import { connectMongoDB } from '@/libs/mongodb/MongoConnect';
-// import TaskModel from '@/libs/mongodb/models/TaskModel';
 
 export default function Tasks({ data }) {
 	const [tasks, setTasks] = useState(data);
@@ -10,7 +8,6 @@ export default function Tasks({ data }) {
 	return (
 		<>
 			<section>
-				<h1>Main page</h1>
 				{tasks &&
 					tasks.map(({ _id, task }) => (
 						<div key={_id}>
@@ -25,15 +22,15 @@ export default function Tasks({ data }) {
 	);
 }
 
-export async function getStaticProps() {
+export async function getStaticProps(context) {
+	const { preview, previewData } = context;
 	const data = await getTasksFromDB();
-	// await connectMongoDB();
-	// const tasks = await TaskModel.find();
-	// const data = JSON.parse(JSON.stringify(tasks));
+	const newData = [...data, previewData];
+	console.log('new data:', newData);
 
 	return {
 		props: {
-			data,
+			data: preview ? newData : data,
 		},
 		revalidate: 3,
 	};

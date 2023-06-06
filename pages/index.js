@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useState } from 'react';
-import Tasks from './tasks';
+import Link from 'next/link';
 
 export default function Home({ data }) {
 	const [tasks, setTasks] = useState(data);
@@ -14,7 +14,13 @@ export default function Home({ data }) {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<main>
-				<Tasks />
+				<h1>Main page</h1>
+				<Link style={{ margin: '10px' }} href='/tasks'>
+					Go to tasks
+				</Link>
+				<Link style={{ margin: '10px' }} href='/cms'>
+					Go to CMS
+				</Link>
 			</main>
 		</>
 	);
