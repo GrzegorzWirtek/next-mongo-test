@@ -3,15 +3,11 @@ const handler = async (req, res) => {
 		return res.status(401).json({ message: 'Invalid token' });
 	}
 
-	res.setPreviewData({
-		_id: 'testit123',
-		task: 'Task 1',
-		description: 'Descr 1',
-		date: '12:12:12, 2023',
-	});
+	const { body: newTask } = req;
 
-	res.send({ task: 'Task 1', description: 'Descr 1', date: '12:12:12, 2023' });
-	// res.redirect(post.slug);
+	res.setPreviewData(newTask);
+
+	res.send(newTask);
 };
 
 export default handler;

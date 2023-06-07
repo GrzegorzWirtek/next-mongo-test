@@ -1,13 +1,19 @@
-import { useState } from 'react';
 import Link from 'next/link';
 import AddTask from '@/components/AddTask.js';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export default function Cms({ data }) {
-	const [newTask, setNewTask] = useState(null);
+	const router = useRouter();
 
-	const handleSetNewTask = (newTask) => {
-		console.log('this is new task: ', newTask);
-		setNewTask(newTask);
+	const handleSetNewTask = async (newTask) => {
+		await axios.post('/api/preview?secret=secret-token', newTask);
+		router.push('/tasks');
+	};
+
+	const handleClearPreview = async () => {
+		await axios.post('/api/end-preview');
+		router.push('/tasks');
 	};
 
 	return (
@@ -23,6 +29,9 @@ export default function Cms({ data }) {
 							<Link href={`tasks/${_id}`}>Go to details</Link>
 						</div>
 					))}
+				<button onClick={handleClearPreview} style={{ margin: '15px' }}>
+					CLEAR PREVIEW
+				</button>
 			</section>
 		</>
 	);

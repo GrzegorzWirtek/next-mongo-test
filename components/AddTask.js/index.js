@@ -15,7 +15,11 @@ export default function AddTask({ handleSetNewTask }) {
 		const { task, description } = inputs;
 		e.preventDefault();
 		if (task === '' || description === '') return;
-		handleSetNewTask({ ...inputs, date: getDate() });
+		handleSetNewTask({
+			...inputs,
+			date: getDate(),
+			_id: Date.now().toString(),
+		});
 		setInputs({ task: '', description: '' });
 	};
 
@@ -31,7 +35,7 @@ export default function AddTask({ handleSetNewTask }) {
 				onChange={(e) => handleChange(e.target.value, 'description')}
 				cols='30'
 				rows='10'></textarea>
-			<button type='submit'>SUBMIT</button>
+			<button type='submit'>NEW TASK PREVIEW</button>
 		</form>
 	);
 }
