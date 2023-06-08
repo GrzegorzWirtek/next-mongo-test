@@ -1,6 +1,6 @@
-const handler = async (_, res) => {
+const handler = async (req, res) => {
 	res.clearPreviewData();
-	res.redirect('/tasks');
+	res.redirect(req.query.slug);
 };
 
 export default handler;

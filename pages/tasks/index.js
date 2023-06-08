@@ -35,15 +35,16 @@ export default function Tasks({ data }) {
 
 export async function getStaticProps(context) {
 	const { preview, previewData } = context;
-	const data = await getTasksFromDB();
+	let data = await getTasksFromDB();
 
-	const query = previewData ? previewData.query : null;
-	const queryData = JSON.parse(query);
-	const newData = [...data, queryData];
+	if (preview && previewData) {
+		const queryData = JSON.parse(previewData.query);
+		data = [...data, queryData];
+	}
 
 	return {
 		props: {
-			data: preview ? newData : data,
+			data,
 		},
 	};
 }
