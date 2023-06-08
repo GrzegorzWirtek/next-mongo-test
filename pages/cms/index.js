@@ -8,13 +8,13 @@ export default function Cms({ data }) {
 	const handleSetNewTask = async (newTask) => {
 		const query = JSON.stringify(newTask);
 		router.push(
-			`/api/preview?secret=${process.env.PREVIEW_SECRET}&query=${query}&slug=/tasks`,
+			`/api/preview?secret=${process.env.NEXT_PUBLIC_PREVIEW_SECRET}&query=${query}&slug=/tasks`,
 		);
 	};
 
 	const handleClearPreview = async () => {
 		router.push(
-			`/api/end-preview?secret=${process.env.PREVIEW_SECRET}&slug=/tasks`,
+			`/api/end-preview?secret=${process.env.NEXT_PUBLIC_PREVIEW_SECRET}&slug=/tasks`,
 		);
 	};
 
