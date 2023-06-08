@@ -4,10 +4,10 @@ const handler = async (req, res) => {
 	}
 
 	const { body: newTask } = req;
-
-	res.setPreviewData(newTask);
-
-	res.send(newTask);
+	await res.clearPreviewData();
+	await res.setPreviewData(newTask);
+	await res.send(newTask);
+	res.revalidate('/tasks');
 };
 
 export default handler;

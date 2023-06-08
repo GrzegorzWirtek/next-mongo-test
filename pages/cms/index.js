@@ -7,12 +7,12 @@ export default function Cms({ data }) {
 	const router = useRouter();
 
 	const handleSetNewTask = async (newTask) => {
-		await axios.post('/api/preview?secret=secret-token', newTask);
+		const res = await axios.post('/api/preview?secret=secret-token', newTask);
 		router.push('/tasks');
 	};
 
 	const handleClearPreview = async () => {
-		await axios.post('/api/end-preview');
+		const res = await axios.post('/api/end-preview');
 		router.push('/tasks');
 	};
 

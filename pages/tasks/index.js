@@ -15,7 +15,7 @@ export default function Tasks({ data }) {
 								{task} {_id}
 							</p>
 							{_id.length < 24 ? null : (
-								<Link href={`tasks/${_id}`}>Go to details {_id.length}</Link>
+								<Link href={`tasks/${_id}`}>Go to details</Link>
 							)}
 						</div>
 					))}
@@ -42,6 +42,5 @@ export async function getStaticProps(context) {
 		props: {
 			data: preview ? newData : data,
 		},
-		revalidate: 3,
 	};
 }
