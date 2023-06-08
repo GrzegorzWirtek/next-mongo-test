@@ -1,7 +1,6 @@
-const handler = async (req, res) => {
-	await res.clearPreviewData();
-	await res.end('Preview mode disable');
-	res.revalidate('/tasks');
+const handler = async (_, res) => {
+	res.clearPreviewData();
+	res.redirect('/tasks');
 };
 
 export default handler;

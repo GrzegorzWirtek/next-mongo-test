@@ -1,19 +1,17 @@
 import Link from 'next/link';
 import AddTask from '@/components/AddTask.js';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 
 export default function Cms({ data }) {
 	const router = useRouter();
 
 	const handleSetNewTask = async (newTask) => {
-		const res = await axios.post('/api/preview?secret=secret-token', newTask);
-		router.push('/tasks');
+		const query = JSON.stringify(newTask);
+		router.push(`/api/preview?query=${query}`);
 	};
 
 	const handleClearPreview = async () => {
-		const res = await axios.post('/api/end-preview');
-		router.push('/tasks');
+		router.push('/api/end-preview');
 	};
 
 	return (
