@@ -21,6 +21,7 @@ export default function Home({ data }) {
 				<Link style={{ margin: '10px' }} href='/cms'>
 					Go to CMS
 				</Link>
+				<Link href='/galery'>Go to galery</Link>
 			</main>
 		</>
 	);
