@@ -1,0 +1,24 @@
+.slider {
+  width: 100%;
+  max-width: 300px;
+  overflow: hidden;
+}
+
+.slider__photos {
+  display: flex;
+  height: 300px;
+  width: 900px;
+  background-color: cadetblue;
+  transition: 1s;
+  z-index: 10;
+}
+
+.slider__photo {
+  overflow: hidden;
+}
+
+.slider__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
