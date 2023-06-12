@@ -12,10 +12,12 @@
     "axios": "^1.4.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
-    "keen-slider": "^6.8.5",
     "mongoose": "^7.2.2",
     "next": "13.4.4",
+    "next-images": "^1.8.5",
+    "next-transpile-modules": "^10.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "yet-another-react-lightbox": "^3.11.0"
   }
 }
