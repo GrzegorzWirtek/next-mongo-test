@@ -7,6 +7,7 @@ export default function Slider({ images, transitionTime }) {
 	const sliderRef = useRef();
 	const isClicked = useRef(false);
 	const currentElementPosition = useRef(0);
+	const startTouchPosition = useRef(0);
 	const transition = useRef(0);
 	const isMouseMoveLeft = useRef(true);
 
@@ -15,14 +16,22 @@ export default function Slider({ images, transitionTime }) {
 		const imageWidth = sliderRef.current.clientWidth;
 
 		const handleMouseDown = (e) => {
-			e.preventDefault();
-
-			isClicked.current = true;
-			currentElementPosition.current =
-				e.clientX - wrapper.offsetLeft - transition.current;
+			handleDown(e, e.clientX);
 		};
 
-		const handleMouseUp = (e) => {
+		const handleTouchDown = (e) => {
+			startTouchPosition.current = parseInt(e.touches[0].clientX);
+			handleDown(e, parseInt(e.touches[0].clientX));
+		};
+
+		const handleDown = (e, clientX) => {
+			e.preventDefault();
+			isClicked.current = true;
+			currentElementPosition.current =
+				clientX - wrapper.offsetLeft - transition.current;
+		};
+
+		const handleUp = (e) => {
 			e.preventDefault();
 			isClicked.current = false;
 
@@ -36,6 +45,10 @@ export default function Slider({ images, transitionTime }) {
 			const newTransitionValue =
 				imageWidth * factor + isMoveRigthFactor + isLeftEndFactor;
 
+			slideImage(newTransitionValue);
+		};
+
+		const slideImage = (newTransitionValue) => {
 			wrapper.style.transition = `${transitionTime}s`;
 			wrapper.style.transform = `translateX(-${newTransitionValue}px)`;
 			transition.current = -newTransitionValue;
@@ -46,11 +59,22 @@ export default function Slider({ images, transitionTime }) {
 		};
 
 		const handleMouseMove = (e) => {
+			handleMove(e, e.clientX, e.movementX);
+		};
+
+		const handleTouchMove = (e) => {
+			const movementX = parseInt(
+				e.touches[0].pageX - startTouchPosition.current,
+			);
+			handleMove(e, parseInt(e.touches[0].clientX), movementX);
+		};
+
+		const handleMove = (e, clientX, movementX) => {
 			e.preventDefault();
 			if (!isClicked.current) return;
 
-			isMouseMoveLeft.current = e.movementX > 0 ? false : true;
-			let cursorPosition = e.clientX - wrapper.offsetLeft;
+			isMouseMoveLeft.current = movementX > 0 ? false : true;
+			let cursorPosition = clientX - wrapper.offsetLeft;
 			wrapper.style.transform = `translateX(${
 				cursorPosition - currentElementPosition.current
 			}px)`;
@@ -58,13 +82,21 @@ export default function Slider({ images, transitionTime }) {
 		};
 
 		wrapper.addEventListener('mousedown', handleMouseDown);
-		window.addEventListener('mouseup', handleMouseUp);
+		window.addEventListener('mouseup', handleUp);
 		wrapper.addEventListener('mousemove', handleMouseMove);
+
+		wrapper.addEventListener('touchstart', handleTouchDown);
+		window.addEventListener('touchend', handleUp);
+		wrapper.addEventListener('touchmove', handleTouchMove);
 
 		const cleanup = () => {
 			wrapper.removeEventListener('mousedown', handleMouseDown);
-			window.removeEventListener('mouseup', handleMouseUp);
+			window.removeEventListener('mouseup', handleUp);
 			wrapper.removeEventListener('mousemove', handleMouseMove);
+
+			wrapper.removeEventListener('touchstart', handleTouchDown);
+			window.removeEventListener('touchend', handleUp);
+			wrapper.removeEventListener('touchmove', handleTouchMove);
 		};
 	}, [transitionTime]);
 
@@ -75,7 +107,7 @@ export default function Slider({ images, transitionTime }) {
 					<div key={img.src.src} className={style.slider__item}>
 						<Image
 							src={img.src}
-							alt='zd'
+							alt={img.alt}
 							height={'auto'}
 							width={'auto'}
 							className={style.slider__img}
